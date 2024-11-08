@@ -1,0 +1,16 @@
+server:
+  # 程序启动端口
+  port: 1180
+spring:
+  data:
+    neo4j:
+      # neo4j用户名
+      username: neo4j
+      # neo4j密码
+      password: 123456
+      # 程序链接数据库地址
+      uri: bolt://192.168.6.131:7687
+logging:
+  level:
+    # 打印neo4j日志
+    org.springframework.data.neo4j: debug
