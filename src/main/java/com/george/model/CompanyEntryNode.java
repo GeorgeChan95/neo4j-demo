@@ -12,7 +12,7 @@ import org.neo4j.ogm.id.UuidStrategy;
  * @Author George
  * @Date 2024/11/7 16:46
  */
-@NodeEntity(value = "CompanyNode", label = "公司节点") // value：节点的Lable，label:用户描述该类
+@NodeEntity(value = "CompanyNode", label = "公司节点") // value：节点的Lable，label:用于描述该类
 @Data
 public class CompanyEntryNode {
     @Id

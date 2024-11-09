@@ -12,5 +12,11 @@ spring:
       uri: bolt://192.168.6.131:7687
 logging:
   level:
-    # 打印neo4j日志
-    org.springframework.data.neo4j: debug
+    org:
+      neo4j: debug
+      springframework:
+        data:
+          neo4j:
+            repository:
+              # 打印cypher查询语句
+              query: debug
