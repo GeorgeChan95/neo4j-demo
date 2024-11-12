@@ -1,10 +1,12 @@
 package com.george.service;
 
 import com.george.dto.CompanyDto;
+import com.george.dto.RelationshipDto;
 import com.george.model.CompanyEntryNode;
 import com.george.model.ProductEntryNode;
 import com.george.model.ProductionRelationship;
 import com.george.model.R;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -60,4 +62,21 @@ public interface ProductionRelationshipService {
      * @return
      */
     R deleteAllRelationship();
+
+    /**
+     * 根据参数查询并返回关系数据
+     * @param typeName 关系类型名称
+     * @param companyName 公司名称
+     * @param productName 产品名称
+     * @return
+     */
+    ProductionRelationship getRelationshipByParam(String typeName, String companyName, String productName);
+
+    /**
+     * 根据产品名称和公司名称获取之间的关系
+     * @param productName 产品名称
+     * @param companyName 公司名称
+     * @return
+     */
+    List<RelationshipDto> getRelationshipByAliasName(String productName, String companyName);
 }

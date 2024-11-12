@@ -1,6 +1,6 @@
 package com.george.dao.neo4j;
 
-import com.george.dto.CompanyDto;
+import com.george.dto.RelationshipDto;
 import com.george.model.CompanyEntryNode;
 import com.george.model.ProductionRelationship;
 import org.springframework.data.neo4j.annotation.Query;
@@ -37,4 +37,25 @@ public interface ProductionRelationshipRepository extends Neo4jRepository<Produc
      */
     @Query("match (c:CompanyNode)-[:Production]->(p:ProductNode) where p.aliasName = {aliasName} return c")
     List<CompanyEntryNode> getCompanyByProductName(@Param("aliasName") String aliasName);
+
+    /**
+     * 根据参数查询并返回关系数据
+     * match relationship = (c:CompanyNode)-[r:Production]->(p:ProductNode) where type(r) = "Production" and c.aliasName = "肯德基" and p.aliasName = "麦辣鸡" return relationship limit 1;
+     * @param typeName 关系类型名称
+     * @param companyName 公司名称
+     * @param productName 产品名称
+     * @return
+     */
+    @Query("match relationship = (c:CompanyNode)-[r]->(p:ProductNode) where type(r) = {typeName} and c.aliasName = {companyName} and p.aliasName = {productName} return relationship limit 1")
+    ProductionRelationship getRelationshipByParam(@Param("typeName") String typeName, @Param("companyName") String companyName, @Param("productName") String productName);
+
+    /**
+     * 根据产品名称和公司名称获取之间的关系,返回自定义结果集
+     * match relationship =  (p:ProductNode {aliasName: "麦辣鸡"})-[r:Production]-(c:CompanyNode {aliasName: "肯德基"}) return relationship;
+     * @param productName 产品名称
+     * @param companyName 公司名称
+     * @return
+     */
+    @Query("match (p:ProductNode {aliasName: {productName}})-[r:Production]-(c:CompanyNode {aliasName: {companyName}}) return r.uuid as uuid, r.incomeProportion as incomeProportion, r.productGross as productGross, r.productPrice as productPrice")
+    List<RelationshipDto> getRelationshipByAliasName(@Param("productName") String productName, @Param("companyName") String companyName);
 }

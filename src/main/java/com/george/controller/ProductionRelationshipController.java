@@ -1,6 +1,7 @@
 package com.george.controller;
 
 import com.george.dto.CompanyDto;
+import com.george.dto.RelationshipDto;
 import com.george.model.CompanyEntryNode;
 import com.george.model.ProductionRelationship;
 import com.george.model.R;
@@ -49,19 +50,19 @@ public class ProductionRelationshipController {
      * @return
      */
     @GetMapping("/getCompanyByProductId")
-    public R<List<CompanyDto>> getCompanyByProductId(String productId) {
+    public R<List<CompanyDto>> getCompanyByProductId(@RequestParam(value = "productId", required = false) String productId) {
         List<CompanyDto> companyDtos = productionRelationshipService.getCompanyByProductId(productId);
         return new R(companyDtos);
     }
 
     /**
      * 根据产品名称获取供应商信息
-     * @param aliasName 产品名称
+     * @param productName 产品名称
      * @return
      */
     @GetMapping("/getCompanyByProductName")
-    public R<List<CompanyEntryNode>> getCompanyByProductName(String aliasName) {
-        List<CompanyEntryNode> companyDtos = productionRelationshipService.getCompanyByProductName(aliasName);
+    public R<List<CompanyEntryNode>> getCompanyByProductName(@RequestParam(value = "productName", required = false) String productName) {
+        List<CompanyEntryNode> companyDtos = productionRelationshipService.getCompanyByProductName(productName);
         return new R(companyDtos);
     }
 
@@ -73,5 +74,33 @@ public class ProductionRelationshipController {
     public R deleteAllRelationship() {
         R result = productionRelationshipService.deleteAllRelationship();
         return result;
+    }
+
+    /**
+     * 根据参数查询并返回关系数据
+     * @param typeName 关系类型名称
+     * @param companyName 公司名称
+     * @param productName 产品名称
+     * @return
+     */
+    @GetMapping("/getRelationshipByParam")
+    public R<ProductionRelationship> getRelationshipByParam(@RequestParam(value = "typeName", required = false) String typeName,
+                                                            @RequestParam(value = "companyName", required = false) String companyName,
+                                                            @RequestParam(value = "productName", required = false) String productName) {
+        ProductionRelationship relationship = productionRelationshipService.getRelationshipByParam(typeName, companyName, productName);
+        return new R<>(relationship);
+    }
+
+    /**
+     * 根据产品名称和公司名称获取之间的关系
+     * @param productName 产品名称
+     * @param companyName 公司名称
+     * @return
+     */
+    @GetMapping("/getRelationshipByAliasName")
+    public R<List<RelationshipDto>> getRelationshipByAliasName(@RequestParam(value = "productName", required = false) String productName,
+                                                                      @RequestParam(value = "companyName", required = false) String companyName) {
+        List<RelationshipDto> relationship = productionRelationshipService.getRelationshipByAliasName(productName, companyName);
+        return new R<>(relationship);
     }
 }

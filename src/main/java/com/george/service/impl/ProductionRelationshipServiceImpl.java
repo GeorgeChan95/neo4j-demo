@@ -7,6 +7,7 @@ import com.george.dao.neo4j.CompanyEntryRepository;
 import com.george.dao.neo4j.ProductEntryRepository;
 import com.george.dao.neo4j.ProductionRelationshipRepository;
 import com.george.dto.CompanyDto;
+import com.george.dto.RelationshipDto;
 import com.george.model.CompanyEntryNode;
 import com.george.model.ProductEntryNode;
 import com.george.model.ProductionRelationship;
@@ -88,5 +89,17 @@ public class ProductionRelationshipServiceImpl implements ProductionRelationship
     public R deleteAllRelationship() {
         productionRelationshipRepository.deleteAll();
         return new R();
+    }
+
+    @Override
+    public ProductionRelationship getRelationshipByParam(String typeName, String companyName, String productName) {
+        ProductionRelationship relationship = productionRelationshipRepository.getRelationshipByParam(typeName, companyName, productName);
+        return relationship;
+    }
+
+    @Override
+    public List<RelationshipDto> getRelationshipByAliasName(String productName, String companyName) {
+        List<RelationshipDto> relationship = productionRelationshipRepository.getRelationshipByAliasName(productName, companyName);
+        return relationship;
     }
 }
